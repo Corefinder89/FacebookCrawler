@@ -43,6 +43,8 @@ def scrape_friend_facebook():
         new_scroll_height = driver.execute_script("return document.body.scrollTop")
         time.sleep(SCROLL_PAUSE_TIME)
         list_friends = driver_obj.find_elements(By.XPATH,"//div[@class='uiProfileBlockContent']//a")
+        for i in list_friends:
+            print(i.text)
         print("\n>>>Fetching objects")
         if new_scroll_height==last_scroll_height:
             break
