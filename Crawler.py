@@ -52,7 +52,7 @@ def scrape_friend_facebook():
                 break
             last_pixel_height=new_scroll_height
     except NoSuchElementException:
-        print("Element Not found")
+        print("Element Not found Exception")
 
 def tear_browser():
     driver_obj.quit()
