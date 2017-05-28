@@ -2,6 +2,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import time
 
 # Initiate browser instance
 def Driver():
@@ -38,11 +39,18 @@ def scrape_friend_facebook():
     SCROLL_PAUSE_TIME=5
     last_scroll_height = driver_obj.execute_script("return document.body.scrollTop")
     while True:
+        driver.execute_script("window.scrollBy(0,1000)","")
+        new_scroll_height = driver.execute_script("return document.body.scrollTop")
+        time.sleep(SCROLL_PAUSE_TIME)
         list_friends = driver_obj.find_elements(By.XPATH,"//div[@class='uiProfileBlockContent']//a")
+        if new_scroll_height==last_scroll_height:
+            break
+        last_pixel_height=new_scroll_height
 
 def tear_browser():
     driver_obj.quit()
 
 login_facebook()
 goto_profile_Section()
+scrape_friend_facebook()
 tear_browser()
