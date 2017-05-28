@@ -30,10 +30,15 @@ def login_facebook():
 
 def goto_profile_Section():
     driver_obj.find_element(By.XPATH,"//a[@title='Profile']").click()
+    print("\n>>>In the profile section")
     driver_obj.find_element(By.XPATH,"//a[@data-tab-key='friends']").click()
+    print("\n>>>In the friend's section")
 
 def scrape_friend_facebook():
-    list_friends = driver_obj.find_elements(By.XPATH,"")
+    SCROLL_PAUSE_TIME=5
+    last_scroll_height = driver_obj.execute_script("return document.body.scrollTop")
+    while True:
+        list_friends = driver_obj.find_elements(By.XPATH,"//div[@class='uiProfileBlockContent']//a")
 
 def tear_browser():
     driver_obj.quit()
