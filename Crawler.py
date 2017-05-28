@@ -2,6 +2,7 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.exceptions import NoSuchElementException
 import time
 
 # Initiate browser instance
@@ -24,7 +25,7 @@ def login_facebook():
     print("\n>>>Entered email")
     driver_obj.find_element(By.ID,"pass").send_keys(password)
     print("\n>>>Entered password")
-    driver_obj.find_element(By.ID,"u_0_q").click()
+    driver_obj.find_element(By.XPATH,"//input[@value='Log In']").click()
     print("\n>>>Clicked on the login button")
     page_title = driver_obj.title
     print("\n>>>The title of the page is: "+page_title)
@@ -36,19 +37,22 @@ def goto_profile_Section():
     print("\n>>>In the friend's section")
 
 def scrape_friend_facebook():
-    SCROLL_PAUSE_TIME=5
-    last_scroll_height = driver_obj.execute_script("return document.body.scrollTop")
-    while True:
-        driver.execute_script("window.scrollBy(0,1000)","")
-        new_scroll_height = driver.execute_script("return document.body.scrollTop")
-        time.sleep(SCROLL_PAUSE_TIME)
-        list_friends = driver_obj.find_elements(By.XPATH,"//div[@class='uiProfileBlockContent']//a")
-        for i in list_friends:
-            print(i.text)
-        print("\n>>>Fetching objects")
-        if new_scroll_height==last_scroll_height:
-            break
-        last_pixel_height=new_scroll_height
+    try:
+        SCROLL_PAUSE_TIME=5
+        last_scroll_height = driver_obj.execute_script("return document.body.scrollTop")
+        while True:
+            driver.execute_script("window.scrollBy(0,1000)","")
+            new_scroll_height = driver.execute_script("return document.body.scrollTop")
+            time.sleep(SCROLL_PAUSE_TIME)
+            list_friends = driver_obj.find_elements(By.XPATH,"//div[@class='uiProfileBlockContent']//a")
+            for i in list_friends:
+                print(i.text)
+            print("\n>>>Fetching objects")
+            if new_scroll_height==last_scroll_height:
+                break
+            last_pixel_height=new_scroll_height
+    except NoSuchElementException:
+        print("Element Not found")
 
 def tear_browser():
     driver_obj.quit()
