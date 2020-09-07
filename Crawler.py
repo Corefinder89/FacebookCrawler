@@ -15,8 +15,8 @@ def Driver():
 driver_obj = Driver()
 
 def login_facebook():
-    username='rockwithsoumya@gmail.com'
-    password='soumya@8017284515'
+    username='<username>'
+    password='<password>'
     driver_obj.get('https://www.facebook.com')
     print(">>>Facebook URL triggered")
     driver_obj.implicitly_wait(5)
